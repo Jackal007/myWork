@@ -1,0 +1,137 @@
+
+.qt {
+	border-bottom: 2px solid #8C8383;
+	margin: 10px 0;
+	padding: 3px 0;
+	font-family: \5b8b\4f53;
+	color: #606060;
+	font-size: 0;
+	*word-spacing: -1px
+}
+
+.qt * {
+	font-size: 20px;
+	*word-spacing: normal
+}
+
+.qt * {
+	*zoom: 1;
+	*vertical-align: middle
+}
+
+.qt em,.qt a {
+	color: #8C8383
+}
+
+.qt a * {
+	cursor: pointer
+}
+
+.qt em,.qt del {
+	margin-left: 5px;
+	margin-right: 5px
+}
+
+.qt em {
+	font-weight: 700
+}
+
+.qt del {
+	color: #C9C9C9;
+	text-decoration: line-through
+}
+
+.qt .ws:after {
+	content: ' '
+}
+
+.qt .fr {
+	float: right
+}
+
+.qt .fl {
+	float: left
+}
+
+.qt .m0 {
+	margin: 0
+}
+
+.qt .m5 {
+	margin-left: 5px;
+	margin-right: 5px
+}
+
+.qt .mr5 {
+	margin-right: 5px
+}
+
+.qt .ml5 {
+	margin-left: 5px
+}
+
+.qt .m10 {
+	margin-right: 10px;
+	margin-left: 10px
+}
+
+.qt .mr10 {
+	margin-right: 10px
+}
+
+.qt .ml10 {
+	margin-left: 10px
+}
+
+.qt .p15 {
+	padding: 15px
+}
+
+.qt .pt13 {
+	padding-top: 13px
+}
+
+.qt .pb13 {
+	padding-bottom: 13px
+}
+
+.qt .fwb {
+	font-weight: 700
+}
+
+.qt .fc-333 {
+	color: #333
+}
+
+.qt .fc-666 {
+	color: #333
+}
+
+.qt .fc-999 {
+	color: #999
+}
+
+.qt .fc-865 {
+	color: #865
+}
+
+.qt .sep-01 {
+	border-left: 1px solid #dfdfdf;
+	padding-left: 10px;
+	margin-left: 5px
+}
+
+.qt .qt-more {
+	float: right;
+	line-height: 1.5;
+	height: auto
+}
+
+.qt .qt-more i {
+	text-indent: -9999px;
+	top: 2px
+}
+
+.qt .bc-cec9c5 {
+	border-color: #cec9c5
+}

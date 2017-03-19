@@ -1,0 +1,11 @@
+c:\users\administrator\documents\visual studio 2012\Projects\news\news\bin\news.dll
+c:\users\administrator\documents\visual studio 2012\Projects\news\news\bin\news.pdb
+c:\users\administrator\documents\visual studio 2012\Projects\news\news\obj\Debug\news.dll
+c:\users\administrator\documents\visual studio 2012\Projects\news\news\obj\Debug\news.pdb
+c:\users\administrator\documents\visual studio 2012\Projects\news\news\obj\Debug\news.csprojResolveAssemblyReference.cache
+C:\Users\lala\Desktop\news\news\bin\news.dll.config
+C:\Users\lala\Desktop\news\news\bin\news.dll
+C:\Users\lala\Desktop\news\news\bin\news.pdb
+C:\Users\lala\Desktop\news\news\obj\Debug\news.csprojResolveAssemblyReference.cache
+C:\Users\lala\Desktop\news\news\obj\Debug\news.dll
+C:\Users\lala\Desktop\news\news\obj\Debug\news.pdb
