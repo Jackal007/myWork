@@ -1,0 +1,72 @@
+/**
+* @file 个人中心（包括用户和管理员）页面的通用css
+* @author linchunfeng
+*/
+.leftnav
+{
+	float: left;
+	height: 850px;
+	width: 18%;
+	background-color: #f3f3f3;
+}
+.leftnav ul
+{
+	padding-top: 20px;
+}
+.leftnav li
+{
+	margin-top: 20px;
+	background-color: #FFF;
+	border-radius: 10px 0 0 10px;
+}
+.second
+{
+	width: 80%;
+	margin-left: 20%;
+}
+
+.leftnav a
+{
+	display: block;
+	padding-top: 15px;
+	padding-bottom: 15px;
+	color:#48453E;
+	text-align: center;
+	font-size: 18px;
+	border-radius: 10px 0 0 10px;
+}
+.leftnav a:hover,.leftnav a:active
+{
+	background-color: #2C6090;
+	color: #FFF;
+	transition: all 0.3s ease; 
+    -webkit-transition: all 0.3s ease;
+    -moz-transition: all 0.3s ease;
+    -o-transition: all 0.3s ease;
+}
+.rightcontainer
+{
+	float: left;
+	width: 60%;
+	height: 800px;
+	margin-left: 11%;
+	margin-top: 40px;
+	
+}
+iframe
+{
+	width: 100%;
+	min-height: 800px;
+	border-style: none;
+	scrolling:no;
+}
+.tablehead
+{
+	background-color: #2C6090;
+	color: #FFF;
+	font-size: 15px;
+}
+tr
+{
+	margin-top: 10px;
+}

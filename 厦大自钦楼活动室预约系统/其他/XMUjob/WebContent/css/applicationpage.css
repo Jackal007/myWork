@@ -1,0 +1,12 @@
+.maincontainer
+{
+	height: 600px;
+}
+.leftcalendar
+{
+	float:left;
+	width: 50%;
+	height: 500px;
+	margin-top: 30px;
+	border-style: solid;
+}

@@ -1,0 +1,134 @@
+.maincontainer
+{
+	height: 600px;
+}
+.leftcontent
+{
+	position: relative;
+	float:left;
+	width: 60%;
+	height: 500px;
+	margin-top: 30px;
+}
+.calendar
+{
+	width: 90%;
+	margin:18px auto;
+	height: 340px;
+	background-color: #f3f3f3;
+}
+.titleline
+{
+	height: 20%;
+	border-color: rgb(200,200,200);
+	border-width: 2px;
+	border-top-style:solid;
+	border-bottom-style:solid;
+}
+.datebar,.nullbar,.timebar,.choosebar
+{
+	float: left;
+	width: 12.5%;
+	height: 100%;
+	overflow: hidden;
+}
+.datebar,.choosebar
+{
+	border-color: rgb(200,200,200);
+	border-width: 2px;
+	border-left-style: solid;
+}
+.calendar span
+{
+	display: block;
+	width: 100%;
+	height: 100%;
+	text-align: center;
+	margin: 0 auto;
+	padding-top: 30%;
+	color: rgb(100,100,100);
+}
+.calendar a
+{
+	display: block;
+	width: 100%;
+	height: 100%;
+}
+.calendar a:hover,.calendar a:active
+{
+	background-image: url(../image/choose.png);
+	background-size: cover;
+	transition: all 0.3s ease; 
+}
+.calline,.calline1
+{
+	height: 20%;
+	border-color: rgb(200,200,200);
+	border-width: 2px;
+	border-bottom-style:solid;
+}
+.calline1
+{
+	background-color: #FFF;
+}
+/*第二页*/
+#secondpage
+{
+	display: none;
+}
+#prePage
+{
+	display: none;
+}
+.btnlocation
+{
+	position: absolute;
+	bottom: 0;
+}
+.btnlocation1
+{
+	position: absolute;
+	bottom: 0;
+}
+.btnlocation2
+{
+	position: absolute;
+	right: 30px;
+	bottom:90px;
+}
+
+.rightcontent
+{
+	float:right;
+	width: 39%;
+	height: 450px;
+	margin-top: 50px;
+}
+.positioncontrol
+{
+	margin-left:10px;
+}
+.positioncontrol1
+{
+	margin-left:-10px;
+}
+.imagebar
+{
+	width: 95%;
+	height: 100px;
+	margin: 0 auto;
+
+}
+.rightcontent img
+{
+	width: 30%;
+	transition:all 0.2s;
+    -webkit-transition: -webkit-transform .2s;
+}
+.rightcontent img:hover
+{
+	-webkit-transform: scale(1.2);
+	-ms-transform: scale(1.2);
+	transform: scale(1.2);
+	zoom: 1.2;
+}
