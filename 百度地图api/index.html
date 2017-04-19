@@ -1,0 +1,196 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+    <style type="text/css">
+        body, html {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            font-family: "微软雅黑";
+        }
+
+        #allmap {
+            height: 80%;
+            width: 100%;
+        }
+
+        #r-result {
+            height: 20%;
+            width: 100%;
+        }
+    </style>
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=izf5TxNB1ML2uMnYIQlUDgPkw5VdW9Lx"></script>
+    <title>map</title>
+</head>
+<body>
+    <div style="height:80%;" id="allmap"></div>
+    <div id="tmap"></div>
+    <div id="r-result">
+        <textarea id="input" rows="7" cols="100">
+119.386703,25.71674 10
+119.386703,25.72674 100
+119.386703,25.73674 1000
+119.386703,25.74674 2000
+119.386703,25.75674 3000</textarea>
+        <input type="button" onclick="generatePath();" value="查询">
+    </div>
+</body>
+</html>
+<script type="text/javascript">
+
+    //declare some varibles
+    var map = new BMap.Map("allmap");   //show things on this map
+    var point = new BMap.Point(119.376414, 25.725794);      //the center point
+    //config the map
+    map.centerAndZoom(point, 15);
+    map.enableScrollWheelZoom(true);
+    map.enableDragging();
+
+    var searchMap = new BMap.Map("tmap");    //carry out search on this map
+
+    //some global varibles
+    var points = [];
+
+    var MyPoint={
+      createNew:functon(){
+        point={};
+        point.point={};
+        point.arrival={};
+        point.info={};
+        point.setPoint:function(p){
+          point.point=p;
+        }
+        point.setArrival(a){
+          point.arrival=a;
+        }
+        point.addLabel:function(content,offset){
+          var opts = {
+              position: point.point,    // link to the piont pont
+              offset: new BMap.Size(0, offset)    //set the offset
+          }
+          var label = new BMap.Label(content, opts);  // define the label
+          map.addOverlay(label);  //add the label to the map
+        }
+        point.mark:function(myIcon){
+          //mark the point with myIcon
+          var marker = new BMap.Marker(point.point, { icon: myIcon });
+          map.addOverlay(marker);
+        }
+        return point;
+      }
+
+      var MyRoute={
+        createNew:function(){
+          route={};
+
+          return route;
+        }
+      }
+
+      //define a self-driving class
+  var driving = new BMap.DrivingRoute(searchMap, {
+      //set the hook function,will be called after search complete
+      onSearchComplete: function (results) {
+          console.log(results);
+      // if (driving.getStatus() == BMAP_STATUS_SUCCESS) {
+      var plan=results.getPlan(0);
+      //add the path and show some info labels
+      var dist = plan.getDistance(false)*1.0;
+      var speed = ((dist / times[f]) * 3.6).toFixed(3)*1.0;
+      var path=plan.getRoute(0).getPath();
+
+      /*add the distan label*/
+      var opts = {
+          position: pts[f],
+          offset: new BMap.Size(0, 20)
+      }
+      var content = "距离:" + (dist / 1000).toString() + " km";
+      var label = new BMap.Label(content, opts);
+      map.addOverlay(label);
+
+      /*add the velocity label*/
+      var opts = {
+          position: pts[f],
+          offset: new BMap.Size(0, 40)
+      }
+      var content = "速度:" + speed.toString() + "km/h";
+      var label = new BMap.Label(content, opts);
+      map.addOverlay(label);
+
+      if (speed < 5) {
+          map.addOverlay(new BMap.Polyline(path, {
+              strokeColor: '#f4ea29',
+              enableClicking: false
+          }));
+      }
+      else if (speed < 20&&speed>5) {
+          map.addOverlay(new BMap.Polyline(path, {
+              strokeColor: '#FF4500',
+              enableClicking: false
+          }));
+      }
+      else if(speed>20){
+          map.addOverlay(new BMap.Polyline(path, {
+              strokeColor: '#d81e06',
+              enableClicking: false
+          }));
+      }
+
+          console.log(results);
+      f=f+1;
+      /*mark the point that passed*/
+      var myIcon = new BMap.Icon("routers/pass.png", new BMap.Size(32, 32));
+      var marker = new BMap.Marker(pts[f], { icon: myIcon });
+      map.addOverlay(marker);
+
+
+      }
+      // }
+  });
+
+  function getData(){
+        //get data from input
+        var input = document.getElementById("input").value;
+        var line = input.split('\n');
+        for (var i = 0; i < line.length; i++) {
+            var p = new BMap.Point(line[i].split(' ')[0].split(',')[0], line[i].split(' ')[0].split(',')[1]);
+            var t=MyPoint.createNew();
+            t.setPoint(p);
+            points.push(t);
+            var time = line[i].split(' ')[1];
+            t.setArrival(time);
+          }
+      }
+
+    function generatePath() {
+        //get data
+        getData();
+
+        /* mark all the points */
+        //mark the start point
+        points[0].mark(new BMap.Icon("routers/start.png", new BMap.Size(64, 64)));
+        //circle the points
+        for (var i = 1; i < point.length-1; i++) {
+          points[i].mark(new BMap.Icon("routers/circle.png", new BMap.Size(64, 64)));
+        }
+        //mark the end point
+        points[points.length - 1].mark(new BMap.Icon("routers/end.png", new BMap.Size(64, 64)));
+
+        /* add infomation labels */
+        for (var i = 1; i < times.length; i++) {
+            /*add piont number*/
+            points[i].addLabel(i+1,-20);
+
+            /*add how much time does he use*/
+            var content = "用时" + times[i].toString() + "秒";
+            points[i].addLabel(content,0);
+        }
+
+        /* carry out the search */
+        for (var i = 0; i < points.length - 1; i++) {
+            driving.search(pts[i], pts[i + 1]);
+        }
+    }
+</script>

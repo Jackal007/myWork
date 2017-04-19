@@ -1,6 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="exploded-war" name="XMUActivityRoomProject">
-    <output-path>$PROJECT_DIR$/classes/artifacts/XMUActivityRoomProject</output-path>
-    <root id="root" />
-  </artifact>
-</component>
