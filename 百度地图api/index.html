@@ -47,108 +47,76 @@
     map.centerAndZoom(point, 15);
     map.enableScrollWheelZoom(true);
     map.enableDragging();
-
-    var searchMap = new BMap.Map("tmap");    //carry out search on this map
-
     //some global varibles
     var points = [];
 
+    //carry out search on this map
+    var searchMap = new BMap.Map("tmap");
+
     var MyPoint={
-      createNew:functon(){
+      createNew:function(num,p,a){
         point={};
-        point.point={};
-        point.arrival={};
-        point.info={};
-        point.setPoint:function(p){
-          point.point=p;
-        }
-        point.setArrival(a){
-          point.arrival=a;
-        }
-        point.addLabel:function(content,offset){
+        point.number=num;
+        point.point=p;
+        point.arrival=a;
+        point.addLabel=function(content,offset){
           var opts = {
               position: point.point,    // link to the piont pont
               offset: new BMap.Size(0, offset)    //set the offset
-          }
+          };
           var label = new BMap.Label(content, opts);  // define the label
           map.addOverlay(label);  //add the label to the map
-        }
-        point.mark:function(myIcon){
+        };
+        point.mark=function(myIcon){
           //mark the point with myIcon
           var marker = new BMap.Marker(point.point, { icon: myIcon });
           map.addOverlay(marker);
         }
+        /*add piont number*/
+        point.addLabel(point.number,-20);
         return point;
       }
+    };
 
-      var MyRoute={
-        createNew:function(){
+    var MyRoute={
+        createNew:function(start,end,useTime){
           route={};
-
+          route.startPoint=start;
+          route.endPoint=end;
+          route.useTime=useTime;
+          route.distance={};
+          route.path={};
+          route.velocity={};
+          route.show=function(){
+          //define a self-driving class
+            var driving = new BMap.DrivingRoute(searchMap, {
+              //set the hook function,will be called after search complete
+              onSearchComplete: function (results) {
+                  var plan=results.getPlan(0);
+                  route.distance = plan.getDistance(false)*1.0;
+                  route.path=plan.getRoute(0).getPath();
+                }
+              });
+            route.velocity=(route.distance/route.useTime)/3.6;
+              var color={};
+              if (velocity < 5) {
+                color='#f4ea29';
+              }
+              else if (velocity < 20&&velocity>5) {
+                color='#FF4500';
+              }
+              else if(velocity>20){
+                color='#d81e06';
+              }
+            map.addOverlay(new BMap.Polyline(route.path, {
+                strokeColor: color,
+                enableClicking: false
+            }));
+          }
+          route.show();
           return route;
         }
-      }
-
-      //define a self-driving class
-  var driving = new BMap.DrivingRoute(searchMap, {
-      //set the hook function,will be called after search complete
-      onSearchComplete: function (results) {
-          console.log(results);
-      // if (driving.getStatus() == BMAP_STATUS_SUCCESS) {
-      var plan=results.getPlan(0);
-      //add the path and show some info labels
-      var dist = plan.getDistance(false)*1.0;
-      var speed = ((dist / times[f]) * 3.6).toFixed(3)*1.0;
-      var path=plan.getRoute(0).getPath();
-
-      /*add the distan label*/
-      var opts = {
-          position: pts[f],
-          offset: new BMap.Size(0, 20)
-      }
-      var content = "距离:" + (dist / 1000).toString() + " km";
-      var label = new BMap.Label(content, opts);
-      map.addOverlay(label);
-
-      /*add the velocity label*/
-      var opts = {
-          position: pts[f],
-          offset: new BMap.Size(0, 40)
-      }
-      var content = "速度:" + speed.toString() + "km/h";
-      var label = new BMap.Label(content, opts);
-      map.addOverlay(label);
-
-      if (speed < 5) {
-          map.addOverlay(new BMap.Polyline(path, {
-              strokeColor: '#f4ea29',
-              enableClicking: false
-          }));
-      }
-      else if (speed < 20&&speed>5) {
-          map.addOverlay(new BMap.Polyline(path, {
-              strokeColor: '#FF4500',
-              enableClicking: false
-          }));
-      }
-      else if(speed>20){
-          map.addOverlay(new BMap.Polyline(path, {
-              strokeColor: '#d81e06',
-              enableClicking: false
-          }));
-      }
-
-          console.log(results);
-      f=f+1;
-      /*mark the point that passed*/
-      var myIcon = new BMap.Icon("routers/pass.png", new BMap.Size(32, 32));
-      var marker = new BMap.Marker(pts[f], { icon: myIcon });
-      map.addOverlay(marker);
-
-
-      }
-      // }
-  });
+      };
 
   function getData(){
         //get data from input
@@ -156,11 +124,9 @@
         var line = input.split('\n');
         for (var i = 0; i < line.length; i++) {
             var p = new BMap.Point(line[i].split(' ')[0].split(',')[0], line[i].split(' ')[0].split(',')[1]);
-            var t=MyPoint.createNew();
-            t.setPoint(p);
-            points.push(t);
             var time = line[i].split(' ')[1];
-            t.setArrival(time);
+            var t=MyPoint.createNew(p,time);
+            points.push(t);
           }
       }
 
@@ -178,19 +144,9 @@
         //mark the end point
         points[points.length - 1].mark(new BMap.Icon("routers/end.png", new BMap.Size(64, 64)));
 
-        /* add infomation labels */
-        for (var i = 1; i < times.length; i++) {
-            /*add piont number*/
-            points[i].addLabel(i+1,-20);
-
-            /*add how much time does he use*/
-            var content = "用时" + times[i].toString() + "秒";
-            points[i].addLabel(content,0);
-        }
-
-        /* carry out the search */
-        for (var i = 0; i < points.length - 1; i++) {
-            driving.search(pts[i], pts[i + 1]);
+        /* create all routes */
+        for (var i = 1; i < points.length; i++) {
+            var r=MyRoute.createNew(points[i-1].p,points[i].p,points[i].arrival-points[i-1].arrival);
         }
     }
 </script>
